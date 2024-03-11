@@ -86,7 +86,7 @@ int main(void)
             return 0;
         }
 
-        // cout << chances << " chances left." << endl;
+        cout << chances << " chances left." << endl;
         cout << "input your guess: ";
         cin >> input;
 
