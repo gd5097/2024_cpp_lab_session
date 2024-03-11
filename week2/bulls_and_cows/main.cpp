@@ -15,7 +15,7 @@ int generateNumber()
     {
         for (int i = 0; i < 3; i++)
         {
-            randNum[i] = rand() % 9 + 1;
+            randNum[i] = rand() % 9;
         }
 
         if (randNum[0] == randNum[1] || randNum[0] == randNum[2] || randNum[1] == randNum[2])
@@ -30,7 +30,6 @@ int generateNumber()
         }
     }
 }
-
 bool testAnswer(int input, int answer)
 {
     int strike = 0;
@@ -74,16 +73,20 @@ int main(void)
 {
 
     srand(time(NULL));
-    // int answer = generateNumber();
-    int answer = 0;
-    cout << "Input answer number (3 digit) : ";
-    cin >> answer;
+    int answer = generateNumber();
 
     int input = 0;
+    int chances = 5;
 
-    while (true)
+    while (1)
     {
+        if (chances == 0)
+        {
+            cout << "Game OVER! You Lose." << endl;
+            return 0;
+        }
 
+        cout << chances << " chances left." << endl;
         cout << "input your guess: ";
         cin >> input;
 
@@ -92,5 +95,7 @@ int main(void)
             cout << "You Successed!" << endl;
             return 0;
         }
+
+        chances--;
     }
 }
