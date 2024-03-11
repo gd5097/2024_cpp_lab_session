@@ -82,11 +82,11 @@ int main(void)
     {
         if (chances == 0)
         {
-            // cout << "Game OVER! You Lose." << endl;
+            cout << "Game OVER! You Lose." << endl;
             return 0;
         }
 
-        cout << chances << " chances left." << endl;
+        // cout << chances << " chances left." << endl;
         cout << "input your guess: ";
         cin >> input;
 
