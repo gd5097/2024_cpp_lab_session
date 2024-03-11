@@ -74,7 +74,11 @@ int main(void)
 {
 
     srand(time(NULL));
-    int answer = generateNumber();
+    // int answer = generateNumber();
+    int answer = 0;
+    cout << "Input answer number (3 digit) : ";
+    cin >> answer;
+
     int input = 0;
 
     while (true)
