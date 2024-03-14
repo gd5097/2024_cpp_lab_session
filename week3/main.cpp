@@ -13,9 +13,6 @@ int main()
     cin >> num1;
     cin >> num2;
 
-    cout << num1 << endl;
-    cout << num2 << endl;
-
     cout << sum2(num1, num2) << endl;
-    cout << sub2(num1, num2) << endl;
+    // cout << sub2(num1, num2) << endl;
 }
