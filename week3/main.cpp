@@ -10,9 +10,13 @@ int main()
 {
     string num1, num2;
 
+    cout << "Input first  number >> ";
     cin >> num1;
+    cout << "Input second number >> ";
     cin >> num2;
 
-    cout << sum2(num1, num2) << endl;
-    // cout << sub2(num1, num2) << endl;
+    cout << "\n\n\n<Result>\n"
+         << endl;
+    cout << "Summation   Result >> " << sum2(num1, num2) << endl;
+    cout << "Subtraction Result >> " << sub2(num1, num2) << endl;
 }
