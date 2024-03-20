@@ -1,6 +1,8 @@
 #include <iostream>
 #include <string>
-#include <stdlib.h>
+#include <cstdlib>
+#include <ctime>
+
 #include "console.h"
 #include <vector>
 
@@ -16,23 +18,32 @@ using namespace std;
 
 int snake_unit_vector[2] = {1, 0};
 
-int snake_pos_x = START_POSITION_X;
-int snake_pos_y = START_POSITION_Y;
+int snake_head_position[2] = {START_POSITION_X, START_POSITION_Y};
+int apple_position[2];
+
 string test_string;
 
 
 
 int tick = 0;
 
+void init();
 void update_tick();
 void update();
 void draw();
 void draw_wall();
 void check_input();
 void update_snake_unit_vector(int x, int y);
+void draw_snake();
+bool snake_eat_apple();
+void set_apple_position();
 
 int main(){
+    srand(time(NULL));
+
+    init();
     console::init();
+
 
     while(true){
         console::clear();
@@ -52,6 +63,15 @@ int main(){
 
     
     return 0;
+}
+
+void init(){
+    set_apple_position();
+}
+
+void set_apple_position(){
+    apple_position[0] = rand % (BOARD_WIDTH - 2) + 1;
+    apple_position[1] = rand % (BOARD_WIDTH - 2) + 1;
 }
 
 void check_input(){
@@ -86,14 +106,27 @@ void update_tick(){
 }
 
 void update(){
-    snake_pos_x += snake_unit_vector[0] * MOVE_DISTANCE;
-    snake_pos_y += snake_unit_vector[1] * MOVE_DISTANCE;
+    snake_head_position[0] += snake_unit_vector[0] * MOVE_DISTANCE;
+    snake_head_position[1] += snake_unit_vector[1] * MOVE_DISTANCE;
+
+    // if(snake_eat_apple){
+        
+    // }
 }
 
 void draw(){
     draw_wall();
-    console::draw(snake_pos_x, snake_pos_y, "●");
+    draw_snake();
     console::draw(2, 24, test_string);
+}
+
+bool snake_eat_apple(){
+
+    return true;
+}
+
+void draw_snake(){
+    console::draw(snake_head_position[0], snake_head_position[1], "●");
 }
 
 void draw_wall(){
