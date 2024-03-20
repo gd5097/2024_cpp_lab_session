@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -Werror -std=c++11
+CXXFLAGS = -std=c++11
 
 main: main.o console.o
 	$(CXX) -lncurses -o main main.o console.o
