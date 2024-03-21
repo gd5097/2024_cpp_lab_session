@@ -60,7 +60,6 @@ int main(){
     init();
     console::init();
 
-
     while(true){
         console::clear();
 
@@ -75,6 +74,7 @@ int main(){
         if(tick == 0){
             update();    
         }
+        draw();
         
 
         console::wait();
@@ -86,19 +86,24 @@ int main(){
 
 void draw_game_over_banner(){
     string message1 = "YOU LOSE!";
-    string message2 = "PRESS \'ENTER\' TO RESTART";
+    string message2 = "PRESS \'ENTER\'";
+    string message3 =  "TO RESTART";
 
     console::draw(BOARD_WIDTH/2 - message1.length()/2, BOARD_HEIGHT/2, message1);
     console::draw(BOARD_WIDTH/2 - message2.length()/2, BOARD_HEIGHT/2 + 1, message2);
+    console::draw(BOARD_WIDTH/2 - message3.length()/2, BOARD_HEIGHT/2 + 2, message3);
 }
 
 void init(){
     set_apple_position();
+    tick = 0;
     game_score = 0;
     snake_tail_length = 0;
     game_over = false;
-    int snake_unit_vector[2] = {1, 0};
-    int snake_head_position[2] = {START_POSITION_X, START_POSITION_Y};
+    snake_unit_vector[0] = 1;
+    snake_unit_vector[1] = 0;
+    snake_head_position[0] = START_POSITION_X;
+    snake_head_position[1] = START_POSITION_Y;
 }
 
 
@@ -124,31 +129,35 @@ bool is_apple_overlap_snake(){
 }
 
 void check_input(){
-    if(console::key(console::K_NONE)){
-        test_string = "NONE";
+    if(console::key(console::K_NONE)){        
     }
-    else if (console::key(console::K_OTHER)){
-        test_string = "OTHER";
+    else if (console::key(console::K_OTHER)){        
     }
-    else if (console::key(console::K_LEFT)){
-        update_snake_unit_vector(-1, 0);
-        
-    }
-    else if (console::key(console::K_RIGHT)){
-        update_snake_unit_vector(1, 0);
-    }
-    else if (console::key(console::K_UP)){
-        update_snake_unit_vector(0, -1);
-    }
-    else if (console::key(console::K_DOWN)){
-        update_snake_unit_vector(0, 1);
-    }
-    else if (console::key(console::K_ESC)){
-        test_string = "ESC";
+    else if (console::key(console::K_ESC)){        
         exit(1);
     }
     else if (console::key(console::K_ENTER)){        
         init();
+    }
+    else if (console::key(console::K_LEFT)){
+        if(!(snake_tail_length > 0 && snake_unit_vector[0] == 1 && snake_unit_vector[1] == 0)){
+            update_snake_unit_vector(-1, 0);
+        }        
+    }
+    else if (console::key(console::K_RIGHT)){
+        if(!(snake_tail_length > 0 && snake_unit_vector[0] == -1 && snake_unit_vector[1] == 0)){
+            update_snake_unit_vector(1, 0);
+        }
+    }
+    else if (console::key(console::K_UP)){
+        if(!(snake_tail_length > 0 && snake_unit_vector[0] == 0 && snake_unit_vector[1] == 1)){
+            update_snake_unit_vector(0, -1);
+        }
+    }
+    else if (console::key(console::K_DOWN)){
+        if(!(snake_tail_length > 0 && snake_unit_vector[0] == 0 && snake_unit_vector[1] == -1)){
+            update_snake_unit_vector(0, 1);
+        }
     }
 }
 
@@ -179,8 +188,8 @@ bool is_game_over(){
 }
 
 bool collision_with_body(){
-    for(int i =0; i < snake_tail_length; i++){
-        if(snake_head_position[0] == snake_tails_positions[0][i] && snake_head_position[1] == snake_tails_positions[1][i]){
+    for(int i = 0; i < snake_tail_length; i++){
+        if(snake_head_position[0] == snake_tails_positions[0][i] && snake_head_position[1] == snake_tails_positions[1][i]){            
             return true;
         }
     }
@@ -216,7 +225,9 @@ void draw(){
     draw_snake();
     draw_apple();
     draw_score();
-    draw_game_over_banner();
+    if(game_over){
+        draw_game_over_banner();
+    }
 }
 
 void draw_score(){
