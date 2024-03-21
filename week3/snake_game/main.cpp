@@ -140,22 +140,22 @@ void check_input(){
         init();
     }
     else if (console::key(console::K_LEFT)){
-        if(!(snake_tail_length > 0 && snake_unit_vector[0] == 1 && snake_unit_vector[1] == 0)){
+        if(!(snake_tail_length > 0 && snake_head_position[0] - 1 == snake_tails_positions[0][0] && snake_head_position[1] == snake_tails_positions[1][0] )){
             update_snake_unit_vector(-1, 0);
         }        
     }
     else if (console::key(console::K_RIGHT)){
-        if(!(snake_tail_length > 0 && snake_unit_vector[0] == -1 && snake_unit_vector[1] == 0)){
+        if(!(snake_tail_length > 0 && snake_head_position[0] + 1 == snake_tails_positions[0][0] && snake_head_position[1] == snake_tails_positions[1][0] )){
             update_snake_unit_vector(1, 0);
         }
     }
     else if (console::key(console::K_UP)){
-        if(!(snake_tail_length > 0 && snake_unit_vector[0] == 0 && snake_unit_vector[1] == 1)){
+        if(!(snake_tail_length > 0 && snake_head_position[0] == snake_tails_positions[0][0] && snake_head_position[1] - 1 == snake_tails_positions[1][0] )){
             update_snake_unit_vector(0, -1);
         }
     }
     else if (console::key(console::K_DOWN)){
-        if(!(snake_tail_length > 0 && snake_unit_vector[0] == 0 && snake_unit_vector[1] == -1)){
+        if(!(snake_tail_length > 0 && snake_head_position[0] == snake_tails_positions[0][0] && snake_head_position[1] + 1 == snake_tails_positions[1][0] )){
             update_snake_unit_vector(0, 1);
         }
     }
