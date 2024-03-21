@@ -124,6 +124,12 @@ void set_apple_position(){
 }
 
 void create_apple_position(){
+    /* 맵의 크기가 크고 뱀의 꼬리가 길어질 경우 수 많은 루프를 돌 가능성이 높음 */
+    for(int i = 0; i < MAX_TAILS; i++){
+        int row = i / BOARD_HEIGHT;
+        int col = i % BOARD_WIDTH;
+    }
+
     apple_position[0] = rand() % (BOARD_WIDTH - 2) + 1;
     apple_position[1] = rand() % (BOARD_WIDTH - 2) + 1;    
 }
