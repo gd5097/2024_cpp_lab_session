@@ -9,28 +9,23 @@
 #define TICK_INTERVAL 10
 #define BOARD_WIDTH 22
 #define BOARD_HEIGHT 22
-#define START_POSITION_X 10
-#define START_POSITION_Y 10
+#define WIN_CONDITION (BOARD_WIDTH - 2)*(BOARD_HEIGHT - 2)-1
+#define START_POSITION_X (BOARD_WIDTH - 2)/2
+#define START_POSITION_Y (BOARD_HEIGHT - 2)/2
 #define MOVE_DISTANCE 1
 #define SCORE_INCREASE_SIZE 10
 #define MAX_TAILS ((BOARD_HEIGHT - 2) * (BOARD_WIDTH - 2))
 
 using namespace std;
 
-
 int snake_unit_vector[2] = {1, 0};
-
 int snake_head_position[2] = {START_POSITION_X, START_POSITION_Y};
 int snake_tails_positions[2][MAX_TAILS];
-int snake_footprint_buffer[2];
 int snake_tail_length = 0;
 int apple_position[2];
-
-string test_string;
-
-
 int game_score = 0;
 bool game_over = false;
+bool game_win = false;
 int tick = 0;
 
 void init();
@@ -53,6 +48,7 @@ bool is_game_over();
 bool collision_with_wall();
 bool collision_with_body();
 void draw_game_over_banner();
+void draw_game_win_banner();
 
 int main(){
     srand(time(NULL));
@@ -64,11 +60,11 @@ int main(){
         console::clear();
 
         check_input();
-        if(game_over){
+        if(game_over || game_win){
             draw();            
             console::wait();
             continue;
-        }
+        }        
 
         update_tick();
         if(tick == 0){
@@ -89,9 +85,19 @@ void draw_game_over_banner(){
     string message2 = "PRESS \'ENTER\'";
     string message3 =  "TO RESTART";
 
-    console::draw(BOARD_WIDTH/2 - message1.length()/2, BOARD_HEIGHT/2, message1);
-    console::draw(BOARD_WIDTH/2 - message2.length()/2, BOARD_HEIGHT/2 + 1, message2);
-    console::draw(BOARD_WIDTH/2 - message3.length()/2, BOARD_HEIGHT/2 + 2, message3);
+    console::draw(BOARD_WIDTH/2 - message1.length()/2, BOARD_HEIGHT/2 - 1, message1);
+    console::draw(BOARD_WIDTH/2 - message2.length()/2, BOARD_HEIGHT/2 + 0, message2);
+    console::draw(BOARD_WIDTH/2 - message3.length()/2, BOARD_HEIGHT/2 + 1, message3);
+}
+
+void draw_game_win_banner(){
+    string message1 = "YOU WIN!";
+    string message2 = "PRESS \'ENTER\'";
+    string message3 =  "TO RESTART";
+
+    console::draw(BOARD_WIDTH/2 - message1.length()/2, BOARD_HEIGHT/2 - 1, message1);
+    console::draw(BOARD_WIDTH/2 - message2.length()/2, BOARD_HEIGHT/2 + 0, message2);
+    console::draw(BOARD_WIDTH/2 - message3.length()/2, BOARD_HEIGHT/2 + 1, message3);
 }
 
 void init(){
@@ -100,6 +106,7 @@ void init(){
     game_score = 0;
     snake_tail_length = 0;
     game_over = false;
+    game_win = false;
     snake_unit_vector[0] = 1;
     snake_unit_vector[1] = 0;
     snake_head_position[0] = START_POSITION_X;
@@ -140,6 +147,7 @@ void check_input(){
         init();
     }
     else if (console::key(console::K_LEFT)){
+        /* Block moving to tail */
         if(!(snake_tail_length > 0 && snake_head_position[0] - 1 == snake_tails_positions[0][0] && snake_head_position[1] == snake_tails_positions[1][0] )){
             update_snake_unit_vector(-1, 0);
         }        
@@ -177,6 +185,9 @@ void update(){
         set_apple_position();
         snake_tail_length += 1;
         update_game_score();
+        if(snake_tail_length == WIN_CONDITION){
+            game_win = true;
+        }
     }
 }
 
@@ -228,11 +239,14 @@ void draw(){
     if(game_over){
         draw_game_over_banner();
     }
+    else if(game_win){
+        draw_game_win_banner();
+    }
 }
 
 void draw_score(){
     string output_string = "Score : " + to_string(game_score);
-    console::draw(2, 24, output_string);
+    console::draw(BOARD_WIDTH/2 - output_string.length()/2, BOARD_HEIGHT + 2, output_string);
 }
 
 bool snake_eat_apple(){
