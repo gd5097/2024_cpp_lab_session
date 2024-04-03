@@ -27,4 +27,7 @@ void Game::handle_input(){
     if(console::key(console::K_ESC)){        
         exit(1);
     }
+    if(console::key(console::K_LEFT)){
+        console::log("test");
+    }
 }
