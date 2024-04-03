@@ -1,15 +1,17 @@
 #include "tetromino.h"
 #include <string>
 
-Tetromino::Tetromino(int size, std::string shape){
+Tetromino::Tetromino(int size, std::string shape)
+{
     size_ = size;
-    
-    for(int row = 0; row < size; row++){
-        for(int col = 0; col < size; col++){
-            shape_[row][col] = 
-        }
-    }
 
+    for (int i = 0; i < size * size; i++)
+    {
+        int row = i / size;
+        int col = i % size;
+
+        shape_[row][col] = shape[i] == 'O' ? true : false;
+    }
 }
 
 Tetromino Tetromino::I(4, "XXXXOOOOXXXXXXXX");
@@ -20,6 +22,6 @@ Tetromino Tetromino::Z(3, "XXXOOXXOO");
 Tetromino Tetromino::J(3, "OXXOOOXXX");
 Tetromino Tetromino::L(3, "XXOOOOXXX");
 
-void Tetromino::drawAt(int x, int y){
-
+void Tetromino::drawAt(int x, int y)
+{
 }
