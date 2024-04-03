@@ -1,5 +1,6 @@
 #include "game.h"
 #include "console/console.h"
+#include <string>
 
 Game::Game(){
 
@@ -14,9 +15,16 @@ void Game::draw(){
 }
 
 void Game::update(){
-    
+    handle_input();
+
 }
 
 bool Game::shouldExit(){
     return false;
+}
+
+void Game::handle_input(){
+    if(console::key(console::K_ESC)){        
+        exit(1);
+    }
 }
